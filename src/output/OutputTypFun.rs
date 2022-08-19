@@ -1,20 +1,17 @@
-use super::Id;
-use super::OutputType;
-use std::f64;
+// use super::Id;
+// use super::OutputType;
+// use std::f64;
 
-impl OutputType{
+// impl OutputType{
 
-    fn calc(&self)-> f64{
+//     fn calc(&self)-> f64{
 
-        match self {
+//         match self {
 
-            OutputType::Id(Id) => Id.calc(self),
-            
-        }
+//             OutputType::Id(Id) => Id.calc(self),
 
+//         }
 
+//     }
 
-    }
-
-
-}
+// }

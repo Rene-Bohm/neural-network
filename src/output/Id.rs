@@ -1,12 +1,10 @@
-use super::IdFunction;
+use super::OutputFunction;
 use std::f64;
 
-impl IdFunction {
+pub struct IdFunction;
 
-    pub fn calc(&self, input: f64) -> f64{
-
-        input
-
+impl OutputFunction for IdFunction {
+    fn call(&self, state: f64) -> f64 {
+        state
     }
-
 }

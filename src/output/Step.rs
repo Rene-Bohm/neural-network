@@ -1,18 +1,22 @@
-use super::StepFunction;
+use super::OutputFunction;
 use std::f64;
 
-impl StepFunction{
+pub struct StepFunction {
+    t: f64,
+}
 
-    fn calc(&self, input: f64) -> f64{
+impl StepFunction {
+    pub fn new(t: f64) -> Self {
+        Self { t }
+    }
+}
 
-        if(input>self.t){
-
-            (1.0)
-
-        }else{
-
-            (0.0)
-
+impl OutputFunction for StepFunction {
+    fn call(&self, state: f64) -> f64 {
+        if state > self.t {
+            1.0
+        } else {
+            0.0
         }
     }
 }

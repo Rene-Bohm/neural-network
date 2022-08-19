@@ -1,5 +1,7 @@
 use nalgebra as na;
-use neuralnet::{neurons::LeakyNeuron, output::Id, state::Euklid_Distance::Euklid_Distance};
+use neuralnet::{
+    neurons::LeakyNeuron::LeakyNeuron, output::*, state::Euklid_Distance::Euklid_Distance,
+};
 
 //rayon anschauen für paralellität
 fn main() {
@@ -12,7 +14,7 @@ fn main() {
         z: 0.0,
         y: 0.0,
         state_function: Box::new(Euklid_Distance),
-        output_function: Box::new(Id {}),
+        output_function: Box::new(StepFunction::new(10.0)),
     };
 
     n.calc(weight, input);
