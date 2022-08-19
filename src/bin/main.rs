@@ -1,6 +1,7 @@
 use nalgebra as na;
-use neuralnet::{neurons::LeakyNeuron, output::Id, state::*};
+use neuralnet::{neurons::LeakyNeuron, output::Id, state::Euklid_Distance::Euklid_Distance};
 
+//rayon anschauen für paralellität
 fn main() {
     println!("Hello, world!");
 
@@ -10,7 +11,7 @@ fn main() {
     let mut n = LeakyNeuron {
         z: 0.0,
         y: 0.0,
-        state_function: Box::new(scalar_prod),
+        state_function: Box::new(Euklid_Distance),
         output_function: Box::new(Id {}),
     };
 

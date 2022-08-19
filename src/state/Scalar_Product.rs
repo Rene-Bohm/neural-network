@@ -1,6 +1,6 @@
 use nalgebra as alg;
 
-pub fn scalar_prod(weight: alg::DVector<f64>, input: alg::DVector<f64>) -> f64 {
+pub fn Scalar_Product(weight: alg::DVector<f64>, input: alg::DVector<f64>) -> f64 {
     let mut sum = 0.0;
 
     let shape = input.shape();
