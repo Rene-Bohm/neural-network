@@ -1,9 +1,9 @@
 use super::OutputFunction;
 use std::f64;
 
-pub struct IdFunction;
+pub struct Id;
 
-impl OutputFunction for IdFunction {
+impl OutputFunction for Id {
     fn call(&self, state: f64) -> f64 {
         state
     }

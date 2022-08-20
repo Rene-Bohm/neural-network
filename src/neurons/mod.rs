@@ -1,5 +1,5 @@
-pub mod FireNeuron;
+mod leaky_neuron;
+pub use leaky_neuron::LeakyNeuron;
 
-pub mod LeakyNeuron;
-
-pub mod StaticNeuron;
+mod static_neuron;
+pub use static_neuron::StaticNeuron;

@@ -1,7 +1,7 @@
 use nalgebra as alg;
 use std::f64;
 
-pub fn Euklid_Distance(weight: alg::DVector<f64>, input: alg::DVector<f64>) -> f64 {
+pub fn Euklid(weight: alg::DVector<f64>, input: alg::DVector<f64>) -> f64 {
    
     let mut sum = 0.0;
 

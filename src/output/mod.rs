@@ -1,37 +1,34 @@
-mod id;
-pub use id::IdFunction;
+mod id_function;
+pub use id_function::Id;
 
-mod step;
-pub use step::StepFunction;
+mod step_function;
+pub use step_function::Step;
 
-pub mod OutputTypFun;
+mod fermi_function;
+pub use fermi_function::Fermi;
 
-pub struct FermiFunction {
-    c: f64,
+mod tangens_function;
+pub use tangens_function::Tangens;
+
+mod relu_function;
+pub use relu_function::ReLU;
+pub use relu_function::ZeroReLU;
+
+mod gauss_function;
+pub use gauss_function::Gauss;
+
+pub trait OutputFunction {
+    fn call(&self, state: f64) -> f64;
 }
 
-pub struct TangensFunction {}
-
-pub struct ReLUFunction {
-    typ: Variant,
-}
-
-pub struct GaussFunction {
-    variance: f64,
-}
-
-pub enum Variant {
-    Leaky,
-    Zero,
-}
 
 pub enum OutputType {
-    Id(IdFunction),
-    Step(StepFunction),
-    Fermi(FermiFunction),
-    Tangens(TangensFunction),
-    ReLU(ReLUFunction),
-    Gauss(GaussFunction),
+    Id(Id),
+    Step(Step),
+    Fermi(Fermi),
+    Tangens(Tangens),
+    ReLU(ReLU),
+    Gauss(Gauss),
 }
 
 impl OutputType {
@@ -44,6 +41,3 @@ impl OutputType {
     }
 }
 
-pub trait OutputFunction {
-    fn call(&self, state: f64) -> f64;
-}

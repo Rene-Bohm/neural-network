@@ -1,17 +1,17 @@
 use super::OutputFunction;
 use std::f64;
 
-pub struct StepFunction {
+pub struct Step{
     t: f64,
 }
 
-impl StepFunction {
+impl Step{
     pub fn new(t: f64) -> Self {
         Self { t }
     }
 }
 
-impl OutputFunction for StepFunction {
+impl OutputFunction for Step {
     fn call(&self, state: f64) -> f64 {
         if state > self.t {
             1.0

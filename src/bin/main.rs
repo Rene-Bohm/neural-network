@@ -1,6 +1,6 @@
 use nalgebra as na;
 use neuralnet::{
-    neurons::LeakyNeuron::LeakyNeuron, output::*, state::Euklid_Distance::Euklid_Distance,
+    neurons::*, output::*, state::*,
 };
 
 //rayon anschauen für paralellität
@@ -10,14 +10,15 @@ fn main() {
     let input = na::dvector![1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
     let weight = na::dvector![6.0, 5.0, 4.0, 3.0, 2.0, 1.0];
 
-    let mut n = LeakyNeuron {
+    let mut n = StaticNeuron {
         z: 0.0,
         y: 0.0,
-        state_function: Box::new(Euklid_Distance),
-        output_function: Box::new(StepFunction::new(10.0)),
+        weights: weight,
+        state_function: Box::new(Minimum),
+        output_function: Box::new(Tangens),
     };
 
-    n.calc(weight, input);
+    n.calc(input);
 
     println!("z = {} y = {}", n.z, n.y);
 }

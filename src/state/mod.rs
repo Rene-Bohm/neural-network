@@ -1,16 +1,21 @@
 use nalgebra as alg;
 
-pub mod Scalar_Product;
+mod scalar_product;
+pub use scalar_product::Scalar;
 
-pub mod Euklid_Distance;
+mod euklid_distance;
+pub use euklid_distance::Euklid;
 
-pub mod Max_Distance;
+mod maximum_distance;
+pub use maximum_distance::Maximum;
 
-pub mod Min_Distance;
+mod minimum_distance;
+pub use minimum_distance::Minimum;
 
-pub mod Manhattan_Distance;
+pub mod manhattan_distance;
+pub use manhattan_distance::Manhattan;
 
-pub mod Mahalanobis_Distance;
+pub mod mahalanobis_distance;//todo
 
 // pub trait StateFunction {
 //     fn calc(&self, weight: alg::DVector<f64>, input: alg::DVector<f64>) -> f64;
