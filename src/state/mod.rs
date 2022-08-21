@@ -1,5 +1,3 @@
-use nalgebra as alg;
-
 mod scalar_product;
 pub use scalar_product::Scalar;
 
@@ -22,6 +20,6 @@ pub mod mahalanobis_distance;//todo
 // }
 
 /// (weights, inputs) -> state
-pub type StateFunction = dyn Fn(alg::DVector<f64>, alg::DVector<f64>) -> f64;
+pub type StateFunction = dyn Fn(Vec<f64>, Vec<f64>) -> f64;
 
 

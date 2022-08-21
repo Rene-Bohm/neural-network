@@ -1,39 +1,48 @@
-use neuralnet::{
-    neurons::*, output::*, state::*,
-};
-use nalgebra as na;
+use crate::{
+    neurons::*};
 
-struct network{
+pub struct Network{
 
-    layer: na::dvector<na::dvector<StaticNeuron>>,
-    output: na::dvector,
+    pub layer: Vec<Vec<StaticNeuron>>,
 
 }
 
-impl network{
+impl Network{
 
-    pub fn new(input_layer: na::dvector<na::dvector<StaticNeuron>>) -> self{
+    pub fn new(input_layer: Vec<Vec<StaticNeuron>>) -> Self{
 
-        layer = input_layer;
-        output = na::dvector<f64>![];
+        Network { layer: (input_layer) }
+        
 
     }
 
-    pub fn call(input: na::dvector<f64>) -> na::dvector<f64>{
+    pub fn call(&mut self, input: Vec<f64>) -> Vec<f64>{
 
-        layer_dimension = self.layer.shape();
-        input_dimension = self.layer_dimension();
+        //Get number of layers
+        let layer_dimension = self.layer.len();
 
+        //output vector for each layer
+        let mut tmp_output = input;
+        
         for i in 0..layer_dimension {
+            
+            let num_of_neurons = self.layer[i].len();
+            let mut output_of_current_layer: Vec<f64> = Vec::new();
+            
+            for j in 0..num_of_neurons{
+                
+                self.layer[i][j].calc(tmp_output.clone());
 
-            for j in 0..input_dimension{
-
+                output_of_current_layer.push(self.layer[i][j].y); 
 
             }
 
+            tmp_output = output_of_current_layer;
+
         } 
 
-    }
+        tmp_output
 
+    }
 
 }

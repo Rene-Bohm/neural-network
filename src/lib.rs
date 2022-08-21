@@ -1,4 +1,5 @@
 // #![warn(missing_docs, missing_debug_implementations, unreachable_pub)]
+pub mod network;
 
 pub mod neurons; 
 /*{
@@ -52,3 +53,4 @@ pub mod output;
 */
 
 pub mod state;
+

@@ -1,6 +1,4 @@
 use crate::{output::OutputFunction, state::StateFunction};
-use nalgebra as alg;
-
 
 pub struct LeakyNeuron {
     pub z: f64,
