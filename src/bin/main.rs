@@ -9,10 +9,13 @@ fn main() {
 
     //let input = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
     //let input = vec![1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
-    let input = vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    //let input = vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    let input = vec![-1.0, -1.0, -1.0, -1.0, -1.0, -1.0];
     let weight = vec![6.0, 5.0, 4.0, 3.0, 2.0, 1.0];
 
-    let mut n = StaticNeuron { //56, 21, 0
+    let n = StaticNeuron { //56, 21, 0
+
+        n: 0.2,
         z: 0.0,
         y: 0.0,
         weights: weight,
@@ -20,8 +23,9 @@ fn main() {
         output_function: Box::new(ReLU),
     };
 
-    let mut n1 = StaticNeuron{
+    let n1 = StaticNeuron{
 
+        n: 0.2,
         z: 0.0,
         y: 0.0,
         weights: vec![1.0, 10.0, 14.0, -3.0, 2.0, 1.0], //67, 25, 0
@@ -29,8 +33,9 @@ fn main() {
         output_function: Box::new(ReLU),
     };
 
-    let mut n2 = StaticNeuron{
-
+    let n2 = StaticNeuron{
+        
+        n: 0.2,
         z: 0.0,
         y: 0.0,
         weights: vec![5.0, 42.0],
@@ -49,6 +54,8 @@ fn main() {
     };
 
     println!("y = {:?}", neuron.call(input)); //3094, 1155, 0
+
+    neuron.visualize();
 
     /* 
     n.calc(input);

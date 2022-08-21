@@ -11,8 +11,7 @@ impl Network{
 
     pub fn new(input_layer: Vec<Vec<StaticNeuron>>) -> Self{
 
-        Network { layer: (input_layer) }
-        
+        Network { layer: (input_layer) }    
 
     }
 
@@ -45,4 +44,25 @@ impl Network{
 
     }
 
+    pub fn visualize (&self) {
+
+        for i in 0..self.layer.len(){
+
+            println!("This is layer {}", i + 1);
+            println!("----------------\n");
+
+            for j in 0..self.layer[i].len(){
+
+                println!(   "This is neuron {}. This is the current state {}"
+                            , j + 1, self.layer[i][j]);
+
+                println!("--------<>-------\n");
+
+            }
+
+        }
+
+    }
+
 }
+
