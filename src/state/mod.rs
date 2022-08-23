@@ -15,10 +15,11 @@ pub use maximum_distance::Maximum;
 mod minimum_distance;
 pub use minimum_distance::Minimum;
 
-pub mod manhattan_distance;
+mod manhattan_distance;
 pub use manhattan_distance::Manhattan;
 
-pub mod mahalanobis_distance; //todo
+mod mahalanobis_distance; //todo
+pub use mahalanobis_distance::*;
 
 // pub trait StateFunction {
 //     fn calc(&self, weight: alg::DVector<f64>, input: alg::DVector<f64>) -> f64;

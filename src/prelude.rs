@@ -14,9 +14,7 @@ pub use crate::state::Maximum;
 
 pub use crate::state::Minimum;
 
-pub use crate::state::manhattan_distance::Manhattan;
-
-pub use crate::state::mahalanobis_distance; //todo
+pub use crate::state::Manhattan;
 
 //
 // # Output functions
