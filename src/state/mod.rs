@@ -1,3 +1,6 @@
+mod state_function;
+pub use state_function::State;
+
 mod scalar_product;
 pub use scalar_product::Scalar;
 

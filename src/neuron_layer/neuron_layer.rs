@@ -42,7 +42,7 @@ impl Layer{
 
     }
 
-    pub fn new_uniform(num_neurons: i32, num_of_weights: i32, state_function:StateType, output_function: OutputType, OutPutParam: f64, LearnFactor:f64) -> Self{
+    pub fn new_uniform(num_neurons: u32, num_of_weights: u32, state_function: StateType, output_function: OutputType, OutPutParam: f64, LearnFactor:f64) -> Self{
 
         let mut rng = rand::thread_rng();
 
@@ -97,7 +97,7 @@ impl Layer{
                 y: 0.0,
                 weights: weights,
                 output_function: Output.clone(),
-                state_function: State,
+                state_function: State.clone(),
 
             });
 

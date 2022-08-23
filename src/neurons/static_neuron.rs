@@ -10,6 +10,7 @@ pub struct StaticNeuron {
     pub weights: Vec<f64>,
     pub output_function: Box<dyn OutputFunction>,
     pub state_function: Box<StateFunction>,
+    
 }
 
 impl StaticNeuron{
