@@ -19,10 +19,9 @@ pub use gauss_function::Gauss;
 
 pub trait OutputFunction: OutputFunctionClone {
     fn call(&self, state: f64) -> f64;
-
 }
 
-trait OutputFunctionClone {
+pub trait OutputFunctionClone {
     fn clone_box(&self) -> Box<dyn OutputFunction>;
 }
 
@@ -40,22 +39,6 @@ impl Clone for Box<dyn OutputFunction> {
         self.clone_box()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 pub enum OutputType {
     Id(Id),
@@ -75,4 +58,3 @@ impl OutputType {
         }
     }
 }
-

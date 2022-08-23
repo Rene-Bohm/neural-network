@@ -1,12 +1,9 @@
 [package]
+edition = "2021"
 name = "neuralnet"
 version = "0.1.0"
-edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-
-mersenne_twister = "1.1.1"
-rand = "*"
-rand_chacha = "*"
+rand = {version = "*", features = ["std_rng"]}

@@ -2,11 +2,11 @@ use super::OutputFunction;
 use std::f64;
 
 #[derive(Clone)]
-pub struct Step{
+pub struct Step {
     t: f64,
 }
 
-impl Step{
+impl Step {
     pub fn new(t: f64) -> Self {
         Self { t }
     }

@@ -1,11 +1,9 @@
-use crate::{neurons::*, state::*, output::*};
+use crate::{get_rng, neurons::*, output::*, state::*};
 
 extern crate rand;
-use rand::Rng;
+use rand::{distributions::Uniform, Rng};
 
-    
 pub enum OutputType {
-
     Id,
     Step,
     Fermi,
@@ -13,101 +11,94 @@ pub enum OutputType {
     ZeroReLU,
     ReLU,
     Gauss,
-
 }
 
 pub enum StateType {
-
     Euklid,
     Manhatten,
     Min,
     Max,
     Scalar,
-
 }
 
 pub struct Layer {
-
-    bias: (f64,f64),
+    bias: (f64, f64),
     neurons: Vec<StaticNeuron>,
-
 }
 
-impl Layer{
-
-    pub fn new_vec(_layer_input: Vec<StaticNeuron>, NBias:(f64,f64)) -> Self{
-
-        Layer {neurons: _layer_input, bias: NBias}
-
-
+impl Layer {
+    pub fn new_vec(_layer_input: Vec<StaticNeuron>, bias: (f64, f64)) -> Self {
+        Layer {
+            neurons: _layer_input,
+            bias,
+        }
     }
 
-    pub fn new_uniform(num_neurons: u32, num_of_weights: u32, state_function: StateType, output_function: OutputType, OutPutParam: f64, LearnFactor:f64) -> Self{
+    pub fn new_uniform(
+        num_neurons: u32,
+        num_of_weights: u32,
+        state_function: StateType,
+        output_function: OutputType,
+        OutPutParam: f64,
+        LearnFactor: f64,
+    ) -> Self {
+        let rng = get_rng();
 
-        let mut rng = rand::thread_rng();
-
-        let mut neuron_layer:Vec<StaticNeuron> = Vec::new();
+        let mut neuron_layer: Vec<StaticNeuron> = Vec::new();
 
         //-----------------------------------------------------
 
-        let State: Box<dyn Fn(Vec<f64>, Vec<f64>) -> f64> = match state_function{
-
+        let State: Box<fn(Vec<f64>, Vec<f64>) -> f64> = match state_function {
             StateType::Euklid => Box::new(Euklid),
             StateType::Scalar => Box::new(Scalar),
             StateType::Min => Box::new(Minimum),
             StateType::Max => Box::new(Maximum),
             StateType::Manhatten => Box::new(Manhattan),
-
         };
 
         //------------------------------------------------------
 
-        let Output: Box<dyn OutputFunction> = match output_function{
-
+        let Output: Box<dyn OutputFunction> = match output_function {
             OutputType::Id => Box::new(Id),
-            OutputType::Step => Box::new(Step{t: OutPutParam}),
-            OutputType::Fermi => Box::new(Fermi{c: OutPutParam}),
+            OutputType::Step => Box::new(Step::new(OutPutParam)),
+            OutputType::Fermi => Box::new(Fermi::new(OutPutParam)),
             OutputType::Tangens => Box::new(Tangens),
             OutputType::ReLU => Box::new(ReLU),
             OutputType::ZeroReLU => Box::new(ZeroReLU),
-            OutputType::Gauss => Box::new(Gauss{delta: OutPutParam}),
-
+            OutputType::Gauss => Box::new(Gauss::new(OutPutParam)),
         };
 
         //------------------------------------------------------
 
-        let NBias:(f64,f64) = (rng.gen_range(0.0,1.0),rng.gen_range(0.0,1.0));
+        let NBias: (f64, f64) = (
+            rng.sample(Uniform::new(0.0, 1.0)),
+            rng.sample(Uniform::new(0.0, 1.0)),
+        );
 
         //------------------------------------------------------
 
-        for i in 0..num_neurons{
-
+        for i in 0..num_neurons {
             let mut weights: Vec<f64> = Vec::new();
 
-            for j in 0..num_of_weights{
-
-                weights.push(rng.gen_range(0.0,0.1));
-
+            for j in 0..num_of_weights {
+                weights.push(rng.sample(Uniform::new(0.0, 1.0)));
             }
 
             neuron_layer.push(StaticNeuron {
-
                 n: LearnFactor,
                 z: 0.0,
                 y: 0.0,
                 weights: weights,
                 output_function: Output.clone(),
                 state_function: State.clone(),
-
             });
-
         }
 
         //------------------------------------------------------
 
-        Layer {neurons: neuron_layer, bias: NBias}
-
-
+        Layer {
+            neurons: neuron_layer,
+            bias: NBias,
+        }
     }
-
 }
