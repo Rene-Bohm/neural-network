@@ -17,9 +17,44 @@ pub use relu_function::ZeroReLU;
 mod gauss_function;
 pub use gauss_function::Gauss;
 
-pub trait OutputFunction {
+pub trait OutputFunction: OutputFunctionClone {
     fn call(&self, state: f64) -> f64;
+
 }
+
+trait OutputFunctionClone {
+    fn clone_box(&self) -> Box<dyn OutputFunction>;
+}
+
+impl<T> OutputFunctionClone for T
+where
+    T: 'static + OutputFunction + Clone,
+{
+    fn clone_box(&self) -> Box<dyn OutputFunction> {
+        Box::new(self.clone())
+    }
+}
+
+impl Clone for Box<dyn OutputFunction> {
+    fn clone(&self) -> Box<dyn OutputFunction> {
+        self.clone_box()
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 pub enum OutputType {

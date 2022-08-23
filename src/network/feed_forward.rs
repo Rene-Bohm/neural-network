@@ -53,7 +53,7 @@ impl Network{
 
             for j in 0..self.layer[i].len(){
 
-                println!(   "This is neuron {}. This is the current state {}"
+                println!(   "This is neuron {}.\nThis is the current state \n{}"
                             , j + 1, self.layer[i][j]);
 
                 println!("--------<>-------\n");

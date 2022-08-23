@@ -1,6 +1,7 @@
 use super::OutputFunction;
 use std::f64;
 
+#[derive(Clone)]
 pub struct Step{
     t: f64,
 }

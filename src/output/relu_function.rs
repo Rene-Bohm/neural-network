@@ -1,6 +1,7 @@
 use super::OutputFunction;
 use std::f64;
 
+#[derive(Clone)]
 pub struct ZeroReLU;
 
 impl OutputFunction for ZeroReLU {
@@ -10,6 +11,7 @@ impl OutputFunction for ZeroReLU {
     }
 }
 
+#[derive(Clone)]
 pub struct ReLU;
 
 impl OutputFunction for ReLU {

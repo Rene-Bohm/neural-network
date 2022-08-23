@@ -1,6 +1,8 @@
 // #![warn(missing_docs, missing_debug_implementations, unreachable_pub)]
 pub mod network;
 
+pub mod neuron_layer;
+
 pub mod neurons; 
 /*{
     use crate::{output::OutputFunction, state::StateFunction};

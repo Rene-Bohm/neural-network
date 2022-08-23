@@ -3,6 +3,7 @@ use std::fmt;
 use crate::{output::OutputFunction, state::StateFunction};
 
 pub struct StaticNeuron {
+    
     pub n: f64,
     pub z: f64,
     pub y: f64,
@@ -25,6 +26,16 @@ impl StaticNeuron{
         for i in 0..(self.weights).len(){
 
             self.weights[i] = self.weights[i] + (self.n * self.y * inputs[i]);
+
+        }
+
+    }
+
+    pub fn change_weight(&mut self, delta: Vec<f64>) {
+
+        for i in 0..self.weights.len(){
+
+            self.weights[i] = self.weights[i] + delta[i];
 
         }
 

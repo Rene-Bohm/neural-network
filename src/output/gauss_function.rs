@@ -1,6 +1,8 @@
 use super::OutputFunction;
 use std::f64;
 
+
+#[derive(Clone)]
 pub struct Gauss {
     delta: f64,
 }
