@@ -3,6 +3,13 @@
 //!
 
 //
+// # enums
+//
+
+pub use crate::enums::*;
+
+
+//
 // # State functions
 //
 
@@ -41,3 +48,15 @@ pub use crate::output::Gauss;
 pub use crate::neurons::LeakyNeuron;
 
 pub use crate::neurons::StaticNeuron;
+
+//
+// # Layer
+//
+
+pub use crate::neuron_layer::Layer;
+
+//
+// # Network
+//
+
+pub use crate::network::Network;

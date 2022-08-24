@@ -1,8 +1,9 @@
-use neuralnet::{network::*, neurons::*, output::*, set_rng, state::*};
 use rand::{rngs::StdRng, SeedableRng};
+use neuralnet::{prelude::*, set_rng, network};
 
 //rayon anschauen für paralellität
 fn main() {
+
     set_rng(StdRng::seed_from_u64(12));
 
     println!("Hello, world!");
@@ -13,6 +14,7 @@ fn main() {
     let input = vec![-1.0, -1.0, -1.0, -1.0, -1.0, -1.0];
     let weight = vec![6.0, 5.0, 4.0, 3.0, 2.0, 1.0];
 
+    /*
     let n = StaticNeuron {
         //56, 21, 0
         n: 0.2,
@@ -44,12 +46,51 @@ fn main() {
     let layer1 = vec![n, n1];
     let layer2 = vec![n2];
     let net = vec![layer1, layer2];
+    
 
-    let mut neuron = Network { layer: net };
+    let layer_1 = Layer::new_uniform(
+        4, 
+        6, 
+        StateType::Scalar, 
+        OutputType::ReLU, 
+        0.0,
+        0.2
+    );
 
-    println!("y = {:?}", neuron.call(input)); //3094, 1155, 0
+    let layer_2 = Layer::new_uniform(
+        7, 
+        4, 
+        StateType::Scalar, 
+        OutputType::ReLU, 
+        0.0,
+        0.2
+    );
 
-    neuron.visualize();
+    let layer_3 = Layer::new_uniform(
+        3, 
+        7, 
+        StateType::Scalar, 
+        OutputType::ReLU, 
+        0.0,
+        0.2
+    );
+
+    let net = vec![layer_1,layer_2,layer_3];
+    
+    let mut neuron = Network {layer: net};
+    */
+
+    let mut net = Network::new_uniform(
+        vec![(4,StateType::Scalar,OutputType::ReLU),(7,StateType::Scalar,OutputType::ReLU),(3,StateType::Scalar,OutputType::ReLU)],
+        0.0,
+        0.2,
+        6,);
+
+    
+
+    println!("y = {:?}", net.call(input)); //3094, 1155, 0
+
+    net.visualize();
 
     /*
     n.calc(input);

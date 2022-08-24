@@ -40,6 +40,7 @@ impl Clone for Box<dyn OutputFunction> {
     }
 }
 
+/* 
 pub enum OutputType {
     Id(Id),
     Step(Step),
@@ -58,3 +59,4 @@ impl OutputType {
         }
     }
 }
+*/

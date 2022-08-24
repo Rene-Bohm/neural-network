@@ -1,33 +1,18 @@
-use crate::{get_rng, neurons::*, output::*, state::*};
+use crate::{get_rng, neurons::*, output::*, state::*, enums::*};
 
 extern crate rand;
 use rand::{distributions::Uniform, Rng};
 
-pub enum OutputType {
-    Id,
-    Step,
-    Fermi,
-    Tangens,
-    ZeroReLU,
-    ReLU,
-    Gauss,
-}
-
-pub enum StateType {
-    Euklid,
-    Manhatten,
-    Min,
-    Max,
-    Scalar,
-}
-
 pub struct Layer {
-    bias: (f64, f64),
-    neurons: Vec<StaticNeuron>,
+    pub bias: f64,
+    pub neurons: Vec<StaticNeuron>,
 }
 
 impl Layer {
-    pub fn new_vec(_layer_input: Vec<StaticNeuron>, bias: (f64, f64)) -> Self {
+
+    //------------------------Constructor------------------------
+
+    pub fn new_vec(_layer_input: Vec<StaticNeuron>, bias: f64) -> Self {
         Layer {
             neurons: _layer_input,
             bias,
@@ -39,9 +24,12 @@ impl Layer {
         num_of_weights: u32,
         state_function: StateType,
         output_function: OutputType,
-        OutPutParam: f64,
-        LearnFactor: f64,
+        output_param: f64,
+        learn_factor: f64,
+        
     ) -> Self {
+
+
         let rng = get_rng();
 
         let mut neuron_layer: Vec<StaticNeuron> = Vec::new();
@@ -60,32 +48,29 @@ impl Layer {
 
         let Output: Box<dyn OutputFunction> = match output_function {
             OutputType::Id => Box::new(Id),
-            OutputType::Step => Box::new(Step::new(OutPutParam)),
-            OutputType::Fermi => Box::new(Fermi::new(OutPutParam)),
+            OutputType::Step => Box::new(Step::new(output_param)),
+            OutputType::Fermi => Box::new(Fermi::new(output_param)),
             OutputType::Tangens => Box::new(Tangens),
             OutputType::ReLU => Box::new(ReLU),
             OutputType::ZeroReLU => Box::new(ZeroReLU),
-            OutputType::Gauss => Box::new(Gauss::new(OutPutParam)),
+            OutputType::Gauss => Box::new(Gauss::new(output_param)),
         };
 
         //------------------------------------------------------
 
-        let NBias: (f64, f64) = (
-            rng.sample(Uniform::new(0.0, 1.0)),
-            rng.sample(Uniform::new(0.0, 1.0)),
-        );
+        let new_bias: f64 = rng.sample(Uniform::new(0.0, 1.0));
 
         //------------------------------------------------------
 
-        for i in 0..num_neurons {
+        for _ in 0..num_neurons {
             let mut weights: Vec<f64> = Vec::new();
 
-            for j in 0..num_of_weights {
+            for _ in 0..num_of_weights {
                 weights.push(rng.sample(Uniform::new(0.0, 1.0)));
             }
 
             neuron_layer.push(StaticNeuron {
-                n: LearnFactor,
+                n: learn_factor,
                 z: 0.0,
                 y: 0.0,
                 weights: weights,
@@ -98,7 +83,44 @@ impl Layer {
 
         Layer {
             neurons: neuron_layer,
-            bias: NBias,
+            bias: new_bias,
         }
+
     }
+
+    //------------------------Calculation------------------------
+
+    pub fn call(&mut self, input: Vec<f64>)-> Vec<f64>{
+
+        let mut output: Vec<f64> = Vec::new();
+
+        for i in 0..self.neurons.len(){
+            
+            self.neurons[i].calc_with_bias(input.clone(), self.bias);
+
+            output.push(self.neurons[i].y);
+
+        }
+
+        output
+
+    }
+
+    //------------------------Visualization------------------------
+
+    pub fn visualize (&self) {
+
+        for i in 0..self.neurons.len(){
+
+            println!(   "This is neuron {}.\nThis is the current state \n{}"
+                        , i + 1, self.neurons[i]);
+
+            println!("--------<>-------\n");
+
+        }
+
+    }
+
 }
+
+

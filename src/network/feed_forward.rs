@@ -1,46 +1,64 @@
-use crate::{
-    neurons::*};
+use crate::prelude::*;
 
 pub struct Network{
 
-    pub layer: Vec<Vec<StaticNeuron>>,
+    pub layer: Vec<Layer>,
 
 }
 
 impl Network{
 
-    pub fn new(input_layer: Vec<Vec<StaticNeuron>>) -> Self{
+    pub fn new(input_layer: Vec<Layer>) -> Self{
 
         Network { layer: (input_layer) }    
+
+    }
+
+    pub fn new_uniform( 
+        layer_components: Vec<(u32, StateType, OutputType)>,
+        output_parameter: f64, 
+        learn_factor: f64,
+        expected_input_size: u32) 
+        -> Self
+    {
+        
+        let mut layer: Vec<Layer> = Vec::new();
+        let mut input_size = expected_input_size;
+
+        for layer_index in 0..layer_components.len(){
+
+            layer.push(Layer::new_uniform(
+                layer_components[layer_index].0, 
+                input_size,
+                layer_components[layer_index].1,
+                layer_components[layer_index].2, 
+                output_parameter, 
+                learn_factor)
+            );
+
+            input_size = layer_components[layer_index].0;
+
+        }
+
+        Network { layer: layer }
 
     }
 
     pub fn call(&mut self, input: Vec<f64>) -> Vec<f64>{
 
         //Get number of layers
-        let layer_dimension = self.layer.len();
+        let layer_index = self.layer.len();
 
         //output vector for each layer
-        let mut tmp_output = input;
+        let mut current_output = input;
         
-        for i in 0..layer_dimension {
+        for i in 0..layer_index {
             
-            let num_of_neurons = self.layer[i].len();
-            let mut output_of_current_layer: Vec<f64> = Vec::new();
-            
-            for j in 0..num_of_neurons{
-                
-                self.layer[i][j].calc(tmp_output.clone());
-
-                output_of_current_layer.push(self.layer[i][j].y); 
-
-            }
-
-            tmp_output = output_of_current_layer;
+            current_output = self.layer[i].call(current_output);
 
         } 
 
-        tmp_output
+        current_output
 
     }
 
@@ -49,16 +67,10 @@ impl Network{
         for i in 0..self.layer.len(){
 
             println!("This is layer {}", i + 1);
+            println!("This layer has {} neurons and a Bias {}", self.layer[i].neurons.len(), self.layer[i].bias);
             println!("----------------\n");
 
-            for j in 0..self.layer[i].len(){
-
-                println!(   "This is neuron {}.\nThis is the current state \n{}"
-                            , j + 1, self.layer[i][j]);
-
-                println!("--------<>-------\n");
-
-            }
+            self.layer[i].visualize();
 
         }
 

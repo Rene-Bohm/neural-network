@@ -10,25 +10,36 @@ pub struct StaticNeuron {
     pub weights: Vec<f64>,
     pub output_function: Box<dyn OutputFunction>,
     pub state_function: Box<StateFunction>,
-    
+
 }
 
 impl StaticNeuron{
     pub fn new() {}
 
-    pub fn calc(&mut self, inputs: Vec<f64>) {
+    pub fn calc_without_bias(&mut self, inputs: Vec<f64>) {
 
-        //Calculate state of neuron and output 
+        //Calculate state of neuron and output without bias
         let f = &self.state_function;
         self.z = f((self.weights).clone(), inputs.clone());
         self.y = self.output_function.call(self.z);
 
+        /* 
         //Change weights 
         for i in 0..(self.weights).len(){
 
             self.weights[i] = self.weights[i] + (self.n * self.y * inputs[i]);
 
         }
+        */
+
+    }
+
+    pub fn calc_with_bias(&mut self, inputs: Vec<f64>, bias: f64) {
+
+        //Calculate state of neuron and output with bias
+        let f = &self.state_function;
+        self.z = f((self.weights).clone(), inputs.clone()) + bias;
+        self.y = self.output_function.call(self.z);
 
     }
 

@@ -5,6 +5,7 @@ pub mod neuron_layer;
 pub mod neurons;
 pub mod output;
 pub mod state;
+pub mod enums;
 
 pub mod prelude;
 
