@@ -13,6 +13,7 @@ impl Step {
 }
 
 impl OutputFunction for Step {
+
     fn call(&self, state: f64) -> f64 {
         if state > self.t {
             1.0
@@ -20,4 +21,6 @@ impl OutputFunction for Step {
             0.0
         }
     }
+
+    fn derivative(&self, z: f64, y:f64) -> f64 {0.0}
 }

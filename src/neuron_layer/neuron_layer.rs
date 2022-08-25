@@ -73,6 +73,7 @@ impl Layer {
                 n: learn_factor,
                 z: 0.0,
                 y: 0.0,
+                input: Vec::with_capacity(weights.len()),
                 weights: weights,
                 output_function: Output.clone(),
                 state_function: State.clone(),

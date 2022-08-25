@@ -17,8 +17,11 @@ pub use relu_function::ZeroReLU;
 mod gauss_function;
 pub use gauss_function::Gauss;
 
+//-----------------------------------------------
+
 pub trait OutputFunction: OutputFunctionClone {
     fn call(&self, state: f64) -> f64;
+    fn derivative(&self, z: f64, y:f64) -> f64;
 }
 
 pub trait OutputFunctionClone {
@@ -39,24 +42,3 @@ impl Clone for Box<dyn OutputFunction> {
         self.clone_box()
     }
 }
-
-/* 
-pub enum OutputType {
-    Id(Id),
-    Step(Step),
-    Fermi(Fermi),
-    Tangens(Tangens),
-    ReLU(ReLU),
-    Gauss(Gauss),
-}
-
-impl OutputType {
-    pub fn call(&self, state: f64) -> f64 {
-        match self {
-            Self::Id(id_struct) => id_struct.call(state),
-            // Self::Step(step_struct) => step_struct.call(state),
-            _ => panic!("BOOM"),
-        }
-    }
-}
-*/
