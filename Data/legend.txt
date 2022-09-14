@@ -1,0 +1,2 @@
+Iris: sepal_length, sepal_width, petal_length, petal_width, species
+Boston: crim, zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, b, lstat, medv

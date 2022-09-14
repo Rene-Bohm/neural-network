@@ -1,4 +1,4 @@
-use crate::{get_rng, neurons::*, output::*, state::*, enums::*};
+use crate::{enums::*, get_rng, neurons::*, output::*, state::*};
 
 extern crate rand;
 use rand::{distributions::Uniform, Rng};
@@ -9,7 +9,6 @@ pub struct Layer {
 }
 
 impl Layer {
-
     //------------------------Constructor------------------------
 
     pub fn new_vec(_layer_input: Vec<StaticNeuron>, bias: f64) -> Self {
@@ -26,10 +25,7 @@ impl Layer {
         output_function: OutputType,
         output_param: f64,
         learn_factor: f64,
-        
     ) -> Self {
-
-
         let rng = get_rng();
 
         let mut neuron_layer: Vec<StaticNeuron> = Vec::new();
@@ -86,42 +82,33 @@ impl Layer {
             neurons: neuron_layer,
             bias: new_bias,
         }
-
     }
 
     //------------------------Calculation------------------------
 
-    pub fn call(&mut self, input: Vec<f64>)-> Vec<f64>{
-
+    pub fn call(&mut self, input: Vec<f64>) -> Vec<f64> {
         let mut output: Vec<f64> = Vec::new();
 
-        for i in 0..self.neurons.len(){
-            
-            self.neurons[i].calc_with_bias(input.clone(), self.bias);
+        for i in 0..self.neurons.len() {
+            self.neurons[i].calc(input.clone(), self.bias);
 
             output.push(self.neurons[i].y);
-
         }
 
         output
-
     }
 
     //------------------------Visualization------------------------
 
-    pub fn visualize (&self) {
-
-        for i in 0..self.neurons.len(){
-
-            println!(   "This is neuron {}.\nThis is the current state \n{}"
-                        , i + 1, self.neurons[i]);
+    pub fn visualize(&self) {
+        for i in 0..self.neurons.len() {
+            println!(
+                "This is neuron {}.\nThis is the current state \n{}",
+                i + 1,
+                self.neurons[i]
+            );
 
             println!("--------<>-------\n");
-
         }
-
     }
-
 }
-
-

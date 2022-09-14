@@ -62,6 +62,8 @@ impl Network{
 
     }
 
+    
+
     //Todo Bias
     pub fn error_backpropagation(&mut self, correction: Vec<f64>){
 
@@ -154,6 +156,7 @@ impl Network{
         }
 
     }
+
 
 }
 

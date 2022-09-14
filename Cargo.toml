@@ -7,3 +7,8 @@ version = "0.1.0"
 
 [dependencies]
 rand = {version = "*", features = ["std_rng"]}
+plotters = "0.3.4"
+
+[[example]]
+name = "plot"
+path = "examples/dif/plot_iris.rs" 
