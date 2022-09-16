@@ -8,7 +8,14 @@ version = "0.1.0"
 [dependencies]
 rand = {version = "*", features = ["std_rng"]}
 plotters = "0.3.4"
+num-traits = "*"
+rand_xorshift = "*"
+rand_distr = "*"
+
+[[example]]
+name = "iris"
+path = "examples/dif/plot_iris.rs" 
 
 [[example]]
 name = "plot"
-path = "examples/dif/plot_iris.rs" 
+path = "examples/dif/plot.rs" 
