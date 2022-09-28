@@ -148,7 +148,7 @@ impl Network{
         for i in 0..self.layer.len(){
 
             println!("This is layer {}", i + 1);
-            println!("This layer has {} neurons and a Bias {}", self.layer[i].neurons.len(), self.layer[i].bias);
+            println!("This layer has {} neurons", self.layer[i].neurons.len());
             println!("----------------\n");
 
             self.layer[i].visualize();

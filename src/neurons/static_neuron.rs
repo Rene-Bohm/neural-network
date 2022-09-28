@@ -4,9 +4,11 @@ use crate::{output::OutputFunction, state::StateFunction};
 
 #[derive(Clone)]
 pub struct StaticNeuron {
+
     pub n: f64,
     pub z: f64,
     pub y: f64,
+    pub bias: f64,
     pub input: Vec<f64>,
     pub weights: Vec<f64>,
     pub output_function: Box<dyn OutputFunction>,
@@ -16,33 +18,12 @@ pub struct StaticNeuron {
 impl StaticNeuron {
     pub fn new() {}
 
-    /*
-    pub fn calc_without_bias(&mut self, inputs: Vec<f64>) {
-
-        self.input = inputs.clone();
-
-        //Calculate state of neuron and output without bias
-        let f = &self.state_function;
-        self.z = f((self.weights).clone(), inputs.clone());
-        self.y = self.output_function.call(self.z);
-
-
-        //Change weights
-        for i in 0..(self.weights).len(){
-
-            self.weights[i] = self.weights[i] + (self.n * self.y * inputs[i]);
-
-        }
-
-    }
-    */
-
-    pub fn calc(&mut self, inputs: Vec<f64>, bias: f64) {
+    pub fn calc(&mut self, inputs: Vec<f64>) {
         self.input = inputs.clone();
 
         //Calculate state of neuron and output with bias
         let f = &self.state_function;
-        self.z = f((self.weights).clone(), inputs.clone()) + bias;
+        self.z = f((self.weights).clone(), inputs.clone()) + self.bias;
         self.y = self.output_function.call(self.z);
     }
 

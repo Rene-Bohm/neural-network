@@ -4,7 +4,7 @@ extern crate rand;
 use rand::{distributions::Uniform, Rng};
 
 pub struct Layer {
-    pub bias: f64,
+
     pub neurons: Vec<StaticNeuron>,
 }
 
@@ -14,7 +14,6 @@ impl Layer {
     pub fn new_vec(_layer_input: Vec<StaticNeuron>, bias: f64) -> Self {
         Layer {
             neurons: _layer_input,
-            bias,
         }
     }
 
@@ -54,10 +53,6 @@ impl Layer {
 
         //------------------------------------------------------
 
-        let new_bias: f64 = rng.sample(Uniform::new(0.0, 1.0));
-
-        //------------------------------------------------------
-
         for _ in 0..num_neurons {
             let mut weights: Vec<f64> = Vec::new();
 
@@ -69,6 +64,7 @@ impl Layer {
                 n: learn_factor,
                 z: 0.0,
                 y: 0.0,
+                bias: rng.sample(Uniform::new(0.0, 1.0)),
                 input: Vec::with_capacity(weights.len()),
                 weights: weights,
                 output_function: Output.clone(),
@@ -80,7 +76,6 @@ impl Layer {
 
         Layer {
             neurons: neuron_layer,
-            bias: new_bias,
         }
     }
 
@@ -90,7 +85,7 @@ impl Layer {
         let mut output: Vec<f64> = Vec::new();
 
         for i in 0..self.neurons.len() {
-            self.neurons[i].calc(input.clone(), self.bias);
+            self.neurons[i].calc(input.clone());
 
             output.push(self.neurons[i].y);
         }
