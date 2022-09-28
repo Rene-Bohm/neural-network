@@ -3,11 +3,16 @@
 //!
 
 //
+// # loss
+//
+
+pub use crate::loss_calc::*;
+
+//
 // # enums
 //
 
 pub use crate::enums::*;
-
 
 //
 // # State functions
@@ -41,6 +46,7 @@ pub use crate::output::ZeroReLU;
 
 pub use crate::output::Gauss;
 
+pub use crate::output::softmax;
 //
 // # Neurons
 //

@@ -4,14 +4,13 @@ extern crate rand;
 use rand::{distributions::Uniform, Rng};
 
 pub struct Layer {
-
     pub neurons: Vec<StaticNeuron>,
 }
 
 impl Layer {
     //------------------------Constructor------------------------
 
-    pub fn new_vec(_layer_input: Vec<StaticNeuron>, bias: f64) -> Self {
+    pub fn new_vec(_layer_input: Vec<StaticNeuron>) -> Self {
         Layer {
             neurons: _layer_input,
         }

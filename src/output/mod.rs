@@ -17,11 +17,14 @@ pub use relu_function::ZeroReLU;
 mod gauss_function;
 pub use gauss_function::Gauss;
 
+mod softmax;
+pub use softmax::softmax;
+
 //-----------------------------------------------
 
 pub trait OutputFunction: OutputFunctionClone {
     fn call(&self, state: f64) -> f64;
-    fn derivative(&self, z: f64, y:f64) -> f64;
+    fn derivative(&self, z: f64, y: f64) -> f64;
 }
 
 pub trait OutputFunctionClone {
