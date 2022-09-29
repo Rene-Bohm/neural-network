@@ -65,4 +65,4 @@ pub use crate::neuron_layer::Layer;
 // # Network
 //
 
-pub use crate::network::Network;
+pub use crate::network::*;
