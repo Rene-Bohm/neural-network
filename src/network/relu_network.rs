@@ -40,7 +40,11 @@ impl ReluNetwork {
     }
 
     //Todo Bias
-    pub fn error_backpropagation(&mut self, correction: Vec<f64>) {}
+    pub fn error_backpropagation(&mut self, input: Vec<f64>, correction: usize) {
+        let forward_output = self.call(input.clone());
+
+        let loss = softmax_cross_derivative(forward_output, correction);
+    }
 
     pub fn visualize(&self) {
         for i in 0..self.layer.len() {
