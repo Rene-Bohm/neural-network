@@ -3,6 +3,12 @@
 //!
 
 //
+// # matrix
+//
+
+pub use crate::linalg::Matrix;
+
+//
 // # loss
 //
 

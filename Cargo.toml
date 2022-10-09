@@ -11,12 +11,15 @@ plotters = "0.3.4"
 num-traits = "*"
 rand_xorshift = "*"
 rand_distr = "*"
-ndarray = "0.15.6"
 
 [[example]]
 name = "iris"
-path = "examples/dif/plot_iris.rs" 
+path = "examples/tests/plot_iris.rs" 
 
 [[example]]
 name = "plot"
-path = "examples/dif/plot.rs" 
+path = "examples/tests/plot.rs" 
+
+[[example]]
+name = "Matrix"
+path = "examples/tests/matrix.rs"

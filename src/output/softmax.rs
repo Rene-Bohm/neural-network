@@ -1,5 +1,4 @@
 use std::{f64, array};
-use ndarray::{Array2, arr1, arr2};
 
 pub fn softmax(input: Vec<f64>) -> Vec<f64> {
     // Overflow prevention

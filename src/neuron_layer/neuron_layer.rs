@@ -64,8 +64,10 @@ impl Layer {
                 z: 0.0,
                 y: 0.0,
                 bias: rng.sample(Uniform::new(0.0, 1.0)),
+                bias_momentum: 0.0,
                 input: Vec::with_capacity(weights.len()),
-                weights: weights,
+                weights_momentum: vec![0.0; weights.len()],
+                weights: weights,  
                 output_function: Output.clone(),
                 state_function: State.clone(),
             });
