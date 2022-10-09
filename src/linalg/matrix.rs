@@ -1,6 +1,9 @@
+#![allow(unused)]
+
 use core::fmt;
 use std::ops::{Add, Mul};
 use std::ops::{Index, IndexMut};
+use std::vec;
 
 use f64;
 
@@ -124,6 +127,36 @@ impl Matrix{
 
         Matrix { rows: self.rows, columns: input.columns, entries: vec }
 
+    }
+
+
+    pub fn eye(dimension: usize) -> Self {
+
+        let mut entries:Vec<Vec<f64>> = Vec::new();
+        
+        for _i in 0..dimension{
+
+            let mut vec: Vec<f64> = Vec::new();
+
+            for _j in 0..dimension{
+
+                if _i == _j {
+
+                    vec.push(1.0);
+
+                }else{
+
+                    vec.push(0.0);
+
+                }
+
+            }
+            
+            entries.push(vec);
+            
+        }
+
+        Matrix { rows: dimension, columns: dimension, entries: entries}
 
     }
 
@@ -192,6 +225,31 @@ impl std::ops::Mul<Matrix> for f64 {
     }
 }
 
+impl IndexMut<usize> for Matrix {
+    
+    fn index_mut<'a>(&'a mut self, index: usize) -> &'a mut Vec<f64> {
+
+        &mut self.entries[index]
+    }
+}
+
+impl Index<(usize, usize)> for Matrix {
+    type Output = f64;
+    fn index(&self, index: (usize, usize)) -> &Self::Output {
+      &self.entries[index.0][index.1]  
+    }
+}
+
+impl Index<usize> for Matrix {
+    type Output = Vec<f64>;
+
+    fn index(&self, index: usize) -> &Vec<f64> {
+        
+        &self.entries[index]
+
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::Matrix;
@@ -242,6 +300,13 @@ mod test {
         m9.visualize();
         println!("\n");
         //-----------------------------------
+
+        let m10 = Matrix::eye(4);
+        m10.visualize();
+        println!("\n"); 
+        //-----------------------------------
+
+        println!("{:?}", m10[0][0]);
 
     }
 
