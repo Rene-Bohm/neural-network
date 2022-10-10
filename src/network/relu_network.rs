@@ -5,6 +5,7 @@ pub struct ReluNetwork {
 }
 
 impl ReluNetwork {
+    
     pub fn new(layer_components: Vec<u32>, learn_factor: f64, expected_input_size: u32) -> Self {
         let mut layer: Vec<Layer> = Vec::new();
         let mut input_size = expected_input_size;

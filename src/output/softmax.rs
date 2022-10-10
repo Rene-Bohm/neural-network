@@ -34,6 +34,7 @@ pub fn softmax(input: Vec<f64>) -> Vec<f64> {
     }
 
     output
+    
 }
 
 pub fn softmax_derivative(input: Vec<f64>) /*-> Vec<f64>*/ {

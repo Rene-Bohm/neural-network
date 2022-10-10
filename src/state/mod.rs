@@ -1,4 +1,4 @@
-#![allow(clippy::non_snake_case)]
+#![allow(non_snake_case)]
 
 mod state_function;
 pub use state_function::State;

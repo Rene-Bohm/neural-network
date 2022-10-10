@@ -30,7 +30,7 @@ impl Layer {
 
         //-----------------------------------------------------
 
-        let State: Box<fn(Vec<f64>, Vec<f64>) -> f64> = match state_function {
+        let state: Box<fn(Vec<f64>, Vec<f64>) -> f64> = match state_function {
             StateType::Euklid => Box::new(Euklid),
             StateType::Scalar => Box::new(Scalar),
             StateType::Min => Box::new(Minimum),
@@ -40,7 +40,7 @@ impl Layer {
 
         //------------------------------------------------------
 
-        let Output: Box<dyn OutputFunction> = match output_function {
+        let output: Box<dyn OutputFunction> = match output_function {
             OutputType::Id => Box::new(Id),
             OutputType::Step => Box::new(Step::new(output_param)),
             OutputType::Fermi => Box::new(Fermi::new(output_param)),
@@ -67,9 +67,9 @@ impl Layer {
                 bias_momentum: 0.0,
                 input: Vec::with_capacity(weights.len()),
                 weights_momentum: vec![0.0; weights.len()],
-                weights: weights,  
-                output_function: Output.clone(),
-                state_function: State.clone(),
+                weights: weights,
+                output_function: output.clone(),
+                state_function: state.clone(),
             });
         }
 

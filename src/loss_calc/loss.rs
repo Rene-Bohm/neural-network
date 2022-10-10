@@ -1,11 +1,12 @@
+use crate::prelude::*;
 use f64;
 
 pub fn loss(actual: usize, expected: Vec<f64>) -> f64 {
-    let loss = match expected[actual] {
-        0.0 => -f64::ln(1e-7),
-        _ => -f64::ln(expected[actual]),
-    };
-    loss
+    if expected[actual] == 0.0 {
+        -f64::ln(1e-7)
+    } else {
+        -f64::ln(expected[actual])
+    }
 }
 
 pub fn avg_batch_loss(actual: Vec<usize>, expected: Vec<Vec<f64>>) -> f64 {

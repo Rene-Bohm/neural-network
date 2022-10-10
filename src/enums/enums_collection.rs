@@ -1,4 +1,4 @@
-#[derive(Clone,Copy)]
+#[derive(Clone, Copy)]
 pub enum OutputType {
     Id,
     Step,
@@ -9,7 +9,7 @@ pub enum OutputType {
     Gauss,
 }
 
-#[derive(Clone,Copy)]
+#[derive(Clone, Copy)]
 pub enum StateType {
     Euklid,
     Manhatten,
@@ -18,7 +18,7 @@ pub enum StateType {
     Scalar,
 }
 
-/* 
+/*
 
 impl OutputType {
     pub fn call(&self, state: f64) -> f64 {
