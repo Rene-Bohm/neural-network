@@ -1,7 +1,9 @@
 use crate::prelude::*;
 use f64;
 
+/* 
 pub fn batch_accuracy(actual: Vec<usize>, expected: Matrix) -> f64 {
+    
     let dimension = expected.dimension();
 
     if actual.len() != dimension.0 || dimension.0 == 0 || dimension.1 == 0 {
@@ -30,9 +32,11 @@ pub fn batch_accuracy(actual: Vec<usize>, expected: Matrix) -> f64 {
         }
 
         sum / len
+        
+    
     }
 }
-
+*/
 pub fn accuracy(actual: usize, expected: Vec<f64>) -> f64 {
     let mut max = expected[0];
 

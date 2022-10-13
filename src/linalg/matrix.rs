@@ -31,7 +31,7 @@ impl Matrix {
         }
     }
 
-    pub fn dimension(self) -> (usize, usize) {
+    pub fn dimension(&self) -> (usize, usize) {
         (self.rows, self.columns)
     }
 
@@ -169,16 +169,41 @@ impl Matrix {
 
 impl From<Vec<Vec<f64>>> for Matrix {
     fn from(item: Vec<Vec<f64>>) -> Self {
+
+
         let row = item.len();
         let column = item[0].len();
 
         if (row == 0 || column == 0) {
             panic!("Cannot create Matrix out of an empty vector")
-        } else {
-            Matrix {
-                rows: row,
-                columns: column,
-                entries: item,
+
+        } else{
+
+            let expected_elements: usize = row * column;
+            let mut actual_elements: usize = 0;
+
+
+            for i in 0..row{
+                for j in 0..column{
+
+                    actual_elements += 1;
+                }
+            }
+
+            if(expected_elements != actual_elements){
+
+                panic!("The amount of elements for a Matrix {}x{}\n
+                        do not suffice\n
+                        {}!={}\n"
+                        ,row, column, expected_elements, actual_elements);
+
+
+            }else{
+                Matrix {
+                    rows: row,
+                    columns: column,
+                    entries: item,
+                }
             }
         }
     }
@@ -318,29 +343,27 @@ pub struct MatrixIntoIterator {
     index_column: usize,
 }
 
+
 impl Iterator for MatrixIntoIterator {
     type Item = f64;
+
     fn next(&mut self) -> Option<Self::Item> {
         let dimension = self.matrix.dimension();
 
-        let mut result: Option<f64> = Some(0.0);
-
         if (self.index_column < dimension.1) {
-            result = Some(self.matrix[self.index_row][self.index_column]);
+            let result = self.matrix[self.index_row][self.index_column];
             self.index_column += 1;
-        } else if (self.index_row < dimension.0) {
+            Some(result)
+        } else if (self.index_row < dimension.0 - 1) {
             self.index_column = 0;
             self.index_row += 1;
-            result = Some(self.matrix[self.index_row][self.index_column]);
+            self.next()
         } else {
-            result = None;
+            None
         }
-
-        self.index_row += 1;
-
-        result
     }
 }
+
 
 impl IntoIterator for Matrix {
     type Item = f64;
@@ -354,6 +377,8 @@ impl IntoIterator for Matrix {
         }
     }
 }
+
+//------------------------------
 
 #[cfg(test)]
 mod test {
@@ -511,4 +536,32 @@ mod test {
 
         assert_eq!(m2, m3);
     }
+
+    #[test]
+    fn iter(){
+
+        let m1 = Matrix::from(vec!( vec![1.0,2.0,3.0,4.0,5.0,6.0],
+                                            vec![7.0,8.0,9.0,10.0,11.0,12.0])
+        );
+
+        for i in m1.into_iter(){
+
+            println!("{:?}", i);
+
+        }
+
+        let m1 = Matrix::from(vec!( vec![1.0,2.0],
+            vec![3.0,4.0])
+        );
+
+        let mut iter = m1.into_iter();
+
+        assert_eq!(Some(1.0), iter.next());
+        assert_eq!(Some(2.0), iter.next());
+        assert_eq!(Some(3.0), iter.next());
+        assert_eq!(Some(4.0), iter.next());
+        assert_eq!(None, iter.next());
+
+    }
+
 }
