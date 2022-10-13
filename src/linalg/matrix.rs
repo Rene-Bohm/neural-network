@@ -312,16 +312,48 @@ impl Display for Matrix {
     }
 }
 
-/*
-impl Iterator for Matrix{
+pub struct MatrixIntoIterator {
+    matrix: Matrix,
+    index_row: usize,
+    index_column: usize,
+}
+
+impl Iterator for MatrixIntoIterator {
     type Item = f64;
-
     fn next(&mut self) -> Option<Self::Item> {
+        let dimension = self.matrix.dimension();
 
+        let mut result: Option<f64> = Some(0.0);
 
+        if (self.index_column < dimension.1) {
+            result = Some(self.matrix[self.index_row][self.index_column]);
+            self.index_column += 1;
+        } else if (self.index_row < dimension.0) {
+            self.index_column = 0;
+            self.index_row += 1;
+            result = Some(self.matrix[self.index_row][self.index_column]);
+        } else {
+            result = None;
+        }
+
+        self.index_row += 1;
+
+        result
     }
 }
-*/
+
+impl IntoIterator for Matrix {
+    type Item = f64;
+    type IntoIter = MatrixIntoIterator;
+
+    fn into_iter(self) -> Self::IntoIter {
+        MatrixIntoIterator {
+            matrix: self,
+            index_row: 0,
+            index_column: 0,
+        }
+    }
+}
 
 #[cfg(test)]
 mod test {

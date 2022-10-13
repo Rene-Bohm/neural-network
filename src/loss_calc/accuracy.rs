@@ -1,4 +1,37 @@
+use crate::prelude::*;
 use f64;
+
+pub fn batch_accuracy(actual: Vec<usize>, expected: Matrix) -> f64 {
+    let dimension = expected.dimension();
+
+    if actual.len() != dimension.0 || dimension.0 == 0 || dimension.1 == 0 {
+        println!("actual.len(): {}, dimension: {:?}", actual.len(), dimension);
+
+        panic!("Batch Accuracy cant be calculated")
+    } else {
+        let mut max = expected[0][0];
+
+        for i in expected.into_iter() {
+            if i > max {
+                max = i;
+            }
+        }
+
+        if expected[actual] != max {
+            0.0
+        } else {
+            1.0
+        }
+
+        let len = expected.len() as f64;
+        let mut sum = 0.0;
+        for i in 0..expected.len() {
+            sum += accuracy(actual[i], expected[i].clone());
+        }
+
+        sum / len
+    }
+}
 
 pub fn accuracy(actual: usize, expected: Vec<f64>) -> f64 {
     let mut max = expected[0];
