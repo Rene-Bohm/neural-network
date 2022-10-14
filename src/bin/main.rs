@@ -18,6 +18,16 @@ fn main() {
 
     net.visualize();
 
+
+    let mut vec:Vec<i32> = Vec::new();
+    for i in 0..10{
+
+        vec.push(i);
+
+    }
+
+    println!("{:?}", vec);
+
     /*
     n.calc(input);
 

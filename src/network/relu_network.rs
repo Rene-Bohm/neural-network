@@ -48,6 +48,7 @@ impl ReluNetwork {
     }
 
     pub fn visualize(&self) {
+
         for i in 0..self.layer.len() {
             println!("This is layer {}", i + 1);
             println!("This layer has {} neurons", self.layer[i].neurons.len());
@@ -56,4 +57,5 @@ impl ReluNetwork {
             self.layer[i].visualize();
         }
     }
+
 }

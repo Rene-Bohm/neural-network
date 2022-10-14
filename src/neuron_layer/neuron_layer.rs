@@ -1,5 +1,6 @@
-use crate::{enums::*, get_rng, neurons::*, output::*, state::*};
-
+use crate::get_rng;
+use crate::output::OutputFunction;
+use crate::prelude::*;
 extern crate rand;
 use rand::{distributions::Uniform, Rng};
 
@@ -107,4 +108,50 @@ impl Layer {
             println!("--------<>-------\n");
         }
     }
+
+    pub fn get_weights(&self) -> Matrix{
+
+        let mut tmp_weights: Vec<Vec<f64>> = Vec::new();
+
+        for i in 0..self.neurons.len(){
+
+            tmp_weights.push(self.neurons[i].get_weights());
+
+        }
+
+        Matrix::from(tmp_weights)
+
+    }
+
+}
+
+#[cfg(test)]
+mod test{
+    use crate::prelude::{StateType, OutputType};
+    use crate::get_rng;
+    use super::Layer;
+    use crate::prelude::*;
+
+
+    #[test]
+    fn getting_weights(){
+
+        let rng = get_rng();
+
+        let l1 = Layer::new_uniform(
+            3,
+            2,
+            StateType::Scalar,
+            OutputType::ReLU,
+            0.0,
+            1.0,
+        );
+
+        let m1 = l1.get_weights();
+
+        println!("{}", m1);
+
+    }
+
+
 }
