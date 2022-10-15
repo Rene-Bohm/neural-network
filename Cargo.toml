@@ -23,3 +23,7 @@ path = "examples/tests/plot.rs"
 [[example]]
 name = "Matrix"
 path = "examples/tests/matrix.rs"
+
+[[example]]
+name = "spiral"
+path = "examples/tests/spiral.rs"

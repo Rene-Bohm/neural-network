@@ -9,10 +9,8 @@ pub struct StaticNeuron {
     pub z: f64,
     pub y: f64,
     pub bias: f64,
-    pub bias_momentum: f64,
     pub input: Vec<f64>,
     pub weights: Vec<f64>,
-    pub weights_momentum: Vec<f64>,
     pub output_function: Box<dyn OutputFunction>,
     pub state_function: Box<StateFunction>,
 }
@@ -37,6 +35,10 @@ impl StaticNeuron {
 
     pub fn get_weights(&self) -> Vec<f64> {
         self.weights.clone()
+    }
+
+    pub fn get_bias(&self) -> f64 {
+        self.bias
     }
     
 }

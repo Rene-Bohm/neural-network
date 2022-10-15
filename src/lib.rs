@@ -1,6 +1,7 @@
 #![allow(unused)]
 // #![warn(missing_docs, missing_debug_implementations, unreachable_pub)]
 
+pub mod data;
 pub mod enums;
 pub mod linalg;
 pub mod loss_calc;

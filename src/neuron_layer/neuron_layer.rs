@@ -6,14 +6,24 @@ use rand::{distributions::Uniform, Rng};
 
 pub struct Layer {
     pub neurons: Vec<StaticNeuron>,
+    pub weight_momentum: Matrix,
+    pub bias_momentum: Matrix,
+    pub dweights: Matrix,
+    pub dbias: Matrix,
+
 }
 
 impl Layer {
     //------------------------Constructor------------------------
 
     pub fn new_vec(_layer_input: Vec<StaticNeuron>) -> Self {
+
         Layer {
-            neurons: _layer_input,
+            neurons: _layer_input.clone(),
+            weight_momentum: Matrix::from(vec![vec![0.0; _layer_input.len()]]),
+            bias_momentum: Matrix::from(vec![vec![0.0; _layer_input.len()]]),
+            dweights: Matrix::from(vec![vec![0.0]]), //only initial
+            dbias: Matrix::from(vec![vec![0.0]]), //only initial
         }
     }
 
@@ -65,9 +75,7 @@ impl Layer {
                 z: 0.0,
                 y: 0.0,
                 bias: rng.sample(Uniform::new(0.0, 1.0)),
-                bias_momentum: 0.0,
                 input: Vec::with_capacity(weights.len()),
-                weights_momentum: vec![0.0; weights.len()],
                 weights: weights,
                 output_function: output.clone(),
                 state_function: state.clone(),
@@ -76,8 +84,14 @@ impl Layer {
 
         //------------------------------------------------------
 
+        let len = neuron_layer.len();
+
         Layer {
             neurons: neuron_layer,
+            weight_momentum: Matrix::from(vec![vec![0.0; len]]),
+            bias_momentum: Matrix::from(vec![vec![0.0; len]]),
+            dweights: Matrix::from(vec![vec![0.0]]), //only initial
+            dbias: Matrix::from(vec![vec![0.0]]),
         }
     }
 
@@ -123,12 +137,29 @@ impl Layer {
 
     }
 
+    pub fn get_bias(&self) -> Matrix{
+
+        let mut tmp_bias: Vec<f64> = Vec::new();
+
+        for i in 0..self.neurons.len(){
+
+            tmp_bias.push(self.neurons[i].get_bias());
+
+        }
+
+        Matrix::from(vec![tmp_bias])
+
+    }
+
 }
 
 #[cfg(test)]
 mod test{
+    use rand::SeedableRng;
+    use rand::rngs::StdRng;
+
     use crate::prelude::{StateType, OutputType};
-    use crate::get_rng;
+    use crate::{get_rng, set_rng};
     use super::Layer;
     use crate::prelude::*;
 
@@ -136,7 +167,9 @@ mod test{
     #[test]
     fn getting_weights(){
 
-        let rng = get_rng();
+        set_rng(StdRng::seed_from_u64(12));
+
+        
 
         let l1 = Layer::new_uniform(
             3,
@@ -148,6 +181,32 @@ mod test{
         );
 
         let m1 = l1.get_weights();
+
+        println!("{:?}\n{:?}\n{:?}\n", l1.neurons[0].weights,l1.neurons[1].weights,l1.neurons[2].weights);
+
+        println!("{}", m1);
+
+    }
+
+    #[test]
+    fn getting_bias(){
+
+        set_rng(StdRng::seed_from_u64(12));
+
+        
+
+        let l1 = Layer::new_uniform(
+            3,
+            2,
+            StateType::Scalar,
+            OutputType::ReLU,
+            0.0,
+            1.0,
+        );
+
+        let m1 = l1.get_bias();
+
+        println!("{:?}\n{:?}\n{:?}\n", l1.neurons[0].bias,l1.neurons[1].bias,l1.neurons[2].bias);
 
         println!("{}", m1);
 

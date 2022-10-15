@@ -19,16 +19,27 @@ impl Stochastic{
 
 
     }
+    
 
-    pub fn update_weights(self, mut neuron: StaticNeuron) -> () {
+    pub fn update_weights(self, layer: &mut Layer, weights: Matrix, biases: Matrix) -> () {
 
-        //let x = neuron.weights.iter().map(|&x| x / len as f64).collect();
+        let weight_updates =    
+        self.momentun * layer.weight_momentum.clone() - 
+        self.current_learning_rate * layer.dweights.clone();
         
+        layer.weight_momentum = weight_updates.clone();
+        
+        let bias_updates =    
+        self.momentun * layer.bias_momentum.clone() - 
+        self.current_learning_rate * layer.dbias.clone();
+        
+        layer.bias_momentum = bias_updates.clone();
 
+        layer.dweights = layer.dweights.clone() + weight_updates;
+        layer.dbias = layer.dbias.clone() + bias_updates;
+        
     }
-
-
-
+ 
     pub fn increment_iteration(mut self) -> (){
 
         self.iteration += 1;
