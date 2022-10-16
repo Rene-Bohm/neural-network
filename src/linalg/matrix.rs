@@ -50,6 +50,32 @@ impl Matrix {
         }
     }
 
+    pub fn add_row(mut self, row: &Vec<f64>){
+
+        let self_dim = self.dimension();
+        let input_dim = &row.len();
+
+        if(self.dimension().1 != *input_dim){
+
+            panic!(
+                "coloumn size is different,
+                {}!={}", self_dim.1, *input_dim
+            );
+
+        }else{
+
+            for i in 0..self_dim.0{
+
+                for j in 0..self_dim.1{
+
+                    self.entries[i][j] = self.entries[i][j] + row[j];
+                }
+
+            }
+
+        }
+    }
+
     fn straighten(self) -> Vec<f64> {
         let mut vec: Vec<f64> = Vec::new();
 

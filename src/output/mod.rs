@@ -13,11 +13,12 @@ pub use tangens_function::Tangens;
 mod relu_function;
 pub use relu_function::ReLU;
 pub use relu_function::ZeroReLU;
+pub use relu_function::relu;
 
 mod gauss_function;
 pub use gauss_function::Gauss;
 
-mod softmax;
+pub mod softmax;
 pub use softmax::softmax;
 
 //-----------------------------------------------

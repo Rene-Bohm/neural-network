@@ -1,3 +1,5 @@
+use crate::linalg::Matrix;
+
 use super::OutputFunction;
 use std::f64;
 
@@ -32,3 +34,28 @@ impl OutputFunction for ReLU {
     }
 }
 
+pub struct relu{
+
+    pub input: Option<Matrix>,
+    pub dinput: Option<Matrix>,
+    pub output: Option<Matrix>,
+
+}
+
+impl relu{
+
+    pub fn new() -> Self{
+
+        relu { input: None, dinput: None, output: None }
+
+    }
+
+    pub fn forward(&mut self, input: &Matrix) -> (){
+
+        self.input = Some(input.clone());
+
+        self.output = Some(input.clone().map(|x| f64::max(x, 0.0)));
+
+    }
+
+}

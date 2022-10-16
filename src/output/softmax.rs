@@ -1,5 +1,7 @@
 use std::{f64, array};
 
+use crate::linalg::Matrix;
+
 pub fn softmax(input: Vec<f64>) -> Vec<f64> {
     // Overflow prevention
 
@@ -35,6 +37,49 @@ pub fn softmax(input: Vec<f64>) -> Vec<f64> {
 
     output
     
+}
+
+pub fn batch_softmax(mut input: Matrix) -> Matrix{
+
+    let dim = input.dimension();
+
+    for i in 0..dim.0{
+
+        let mut max = input[i][0];
+
+        for j in 1..dim.1{
+            if  input[i][j]>max {
+                max = input[i][j];
+            }
+        }
+        for j in 0..dim.1{
+
+            input[i][j] -= max;
+
+        }
+
+    }
+
+    let mut output: Vec<f64> = Vec::new();
+
+    for i in 0..dim.0{
+
+        let mut sum = 0.0;
+
+        for j in 0..dim.1{
+            let e = f64::exp(i as f64);
+            sum += e;
+            output.push(e);
+        }
+        
+        for i in 0..dim.1 {
+            output[i] = output[i] / sum;
+        }
+        
+    }
+
+    Matrix::from(vec![output])
+
 }
 
 pub fn softmax_derivative(input: Vec<f64>) /*-> Vec<f64>*/ {

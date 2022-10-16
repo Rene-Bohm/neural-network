@@ -44,37 +44,54 @@ pub fn linspace(start: f64, end: f64, samples: usize) -> Vec<f64>{
 
 }
 
-pub fn spiral(samples: usize, classes: usize) -> (Vec<(f64,f64)>, Vec<usize>){
+pub fn get_n<T>(input: &Vec<T>, idx1: usize, idx2: usize) -> Vec<T> 
+    where T: Clone
+    {
 
-    let mut points = vec![(0.0, 0.0); samples*classes];
-    let mut respectiv_class = vec![0 as usize; samples*classes];
+    let mut new: Vec<T> = Vec::new();
 
-    set_rng(StdRng::seed_from_u64(12));
+    for i in idx1..idx2{
+
+        new.push(input[i].clone());
+
+    }
+
+    new
+}
+
+//todo fix spiral
+pub fn spiral(elements: usize, classes: usize) -> (Vec<(f64,f64)>, Vec<usize>){
+
+    let mut points = vec![(0.0, 0.0); elements*classes];
+    let mut respectiv_class = vec![0 as usize; elements*classes];
+
+    set_rng(StdRng::seed_from_u64(15));
     let rng = get_rng();
 
     let mut round = 0 as usize;
 
     for class_num in 0..classes{
 
-        let i1 = linspace(0.0, 1.0, samples);
-        let mut i2 = linspace((class_num*4) as f64, ((class_num+1)*4) as f64, samples);
+        let i1 = linspace(0.0, 1.0, elements);
+        let mut i2 = linspace((class_num*4) as f64, ((class_num+1)*4) as f64, elements);
 
         let i2: Vec<f64> = i2.iter().map(|x| x + rng.sample(Uniform::new(0.0, 1.0))).collect();
 
-        for samples in round..round+samples{
+        for sample in round..round+elements{
 
-            points[samples].0 = i1[samples%3] * f64::sin(i2[samples%3] * 2.5);
-            points[samples].1 = i1[samples%3] * f64::cos(i2[samples%3] * 2.5);
+            let minus_round = sample - round;
+            points[sample].0 = i1[minus_round] * f64::sin(i2[minus_round] * 2.5);
+            points[sample].1 = i1[minus_round] * f64::cos(i2[minus_round] * 2.5);
 
         }
 
-        for class_index in round..round+samples{
+        for class_index in round..round+elements{
 
             respectiv_class[class_index] = class_num;
 
         }
 
-        round += classes;
+        round += elements;
 
     }
 
@@ -84,15 +101,23 @@ pub fn spiral(samples: usize, classes: usize) -> (Vec<(f64,f64)>, Vec<usize>){
 
 #[cfg(test)]
 mod test{
+    use crate::data::get_n;
+
     use super::{spiral, linspace};
 
 
     #[test]
     fn spiralo(){
 
-        let X = spiral(3, 3);
+        let elements = 3 as usize;
 
-        println!("{:?}\n{:?}", X.0, X.1);
+        let X = spiral(elements, 3);
+
+        let n = get_n(&X.0, 0, 3);
+
+        println!("{:?}", &n);
+
+        println!("{:?},{:?}\n{:?},{:?}\n{:?},{:?}", X.0[0].0,X.0[0].1, X.0[elements].0,X.0[elements].1, X.0[2*elements].0, X.0[2*elements].1);
 
 
     }
