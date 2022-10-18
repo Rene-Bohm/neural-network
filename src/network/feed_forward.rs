@@ -47,7 +47,7 @@ impl Network {
             current_output = self.layer[i].call(current_output);
         }
 
-        softmax(current_output)
+        vec_softmax(current_output)
     }
 
     //Todo Bias

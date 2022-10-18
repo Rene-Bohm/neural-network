@@ -9,6 +9,8 @@ use std::vec;
 
 use f64;
 
+use crate::optimizer::Optimizer;
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct Matrix {
     rows: usize,
@@ -50,29 +52,22 @@ impl Matrix {
         }
     }
 
-    pub fn add_row(mut self, row: &Vec<f64>){
-
+    pub fn add_row(mut self, row: &Vec<f64>) {
         let self_dim = self.dimension();
         let input_dim = &row.len();
 
-        if(self.dimension().1 != *input_dim){
-
+        if (self.dimension().1 != *input_dim) {
             panic!(
                 "coloumn size is different,
-                {}!={}", self_dim.1, *input_dim
+                {}!={}",
+                self_dim.1, *input_dim
             );
-
-        }else{
-
-            for i in 0..self_dim.0{
-
-                for j in 0..self_dim.1{
-
+        } else {
+            for i in 0..self_dim.0 {
+                for j in 0..self_dim.1 {
                     self.entries[i][j] = self.entries[i][j] + row[j];
                 }
-
             }
-
         }
     }
 
@@ -191,40 +186,69 @@ impl Matrix {
             entries: entries,
         }
     }
+
+    pub fn sum(self, axis: Option<bool>) -> Matrix {
+        //row sum
+        if (axis.unwrap() == false || axis == None) {
+            let mut axis_sum: Vec<Vec<f64>> = Vec::new();
+
+            for i in self.entries {
+                axis_sum.push(vec![i.iter().sum()]);
+            }
+
+            Matrix {
+                rows: axis_sum.len(),
+                columns: 1 as usize,
+                entries: axis_sum,
+            }
+        } else {
+            //coloumn sum
+            let mut axis_sum: Vec<f64> = Vec::new();
+
+            for i in 0..self.dimension().1 {
+                let mut sum = 0.0;
+
+                for j in 0..self.dimension().0 {
+                    sum += self.entries[j][i];
+                }
+
+                axis_sum.push(sum);
+            }
+
+            Matrix {
+                rows: 1 as usize,
+                columns: axis_sum.len(),
+                entries: vec![axis_sum],
+            }
+        }
+    }
 }
 
 impl From<Vec<Vec<f64>>> for Matrix {
     fn from(item: Vec<Vec<f64>>) -> Self {
-
-
         let row = item.len();
         let column = item[0].len();
 
         if (row == 0 || column == 0) {
             panic!("Cannot create Matrix out of an empty vector")
-
-        } else{
-
+        } else {
             let expected_elements: usize = row * column;
             let mut actual_elements: usize = 0;
 
-
-            for i in 0..row{
-                for j in 0..column{
-
+            for i in 0..row {
+                for j in 0..column {
                     actual_elements += 1;
                 }
             }
 
-            if(expected_elements != actual_elements){
-
-                panic!("The amount of elements for a Matrix {}x{}\n
+            if (expected_elements != actual_elements) {
+                panic!(
+                    "The amount of elements for a Matrix {}x{}\n
                         do not suffice\n
-                        {}!={}\n"
-                        ,row, column, expected_elements, actual_elements);
-
-
-            }else{
+                        {}!={}\n",
+                    row, column, expected_elements, actual_elements
+                );
+            } else {
                 Matrix {
                     rows: row,
                     columns: column,
@@ -369,7 +393,6 @@ pub struct MatrixIntoIterator {
     index_column: usize,
 }
 
-
 impl Iterator for MatrixIntoIterator {
     type Item = f64;
 
@@ -389,7 +412,6 @@ impl Iterator for MatrixIntoIterator {
         }
     }
 }
-
 
 impl IntoIterator for Matrix {
     type Item = f64;
@@ -564,21 +586,17 @@ mod test {
     }
 
     #[test]
-    fn iter(){
+    fn iter() {
+        let m1 = Matrix::from(vec![
+            vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+            vec![7.0, 8.0, 9.0, 10.0, 11.0, 12.0],
+        ]);
 
-        let m1 = Matrix::from(vec!( vec![1.0,2.0,3.0,4.0,5.0,6.0],
-                                            vec![7.0,8.0,9.0,10.0,11.0,12.0])
-        );
-
-        for i in m1.into_iter(){
-
+        for i in m1.into_iter() {
             println!("{:?}", i);
-
         }
 
-        let m1 = Matrix::from(vec!( vec![1.0,2.0],
-            vec![3.0,4.0])
-        );
+        let m1 = Matrix::from(vec![vec![1.0, 2.0], vec![3.0, 4.0]]);
 
         let mut iter = m1.into_iter();
 
@@ -587,7 +605,26 @@ mod test {
         assert_eq!(Some(3.0), iter.next());
         assert_eq!(Some(4.0), iter.next());
         assert_eq!(None, iter.next());
-
     }
 
+    #[test]
+    fn axis_sum() {
+        let m1 = Matrix::from(vec![
+            vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+            vec![7.0, 8.0, 9.0, 10.0, 11.0, 12.0],
+        ]);
+
+        let m2 = Matrix::from(vec![vec![21.0], vec![57.0]]);
+
+        assert_eq!(m2, m1.sum(Some(false)));
+
+        let m1 = Matrix::from(vec![
+            vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+            vec![7.0, 8.0, 9.0, 10.0, 11.0, 12.0],
+        ]);
+
+        let m2 = Matrix::from(vec![vec![8.0, 10.0, 12.0, 14.0, 16.0, 18.0]]);
+
+        assert_eq!(m2, m1.sum(Some(true)));
+    }
 }

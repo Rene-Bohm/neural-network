@@ -5,7 +5,6 @@ pub struct ReluNetwork {
 }
 
 impl ReluNetwork {
-    
     pub fn new(layer_components: Vec<u32>, learn_factor: f64, expected_input_size: u32) -> Self {
         let mut layer: Vec<Layer> = Vec::new();
         let mut input_size = expected_input_size;
@@ -37,7 +36,7 @@ impl ReluNetwork {
             current_output = self.layer[i].call(current_output);
         }
 
-        softmax(current_output)
+        vec_softmax(current_output)
     }
 
     //Todo Bias
@@ -48,7 +47,6 @@ impl ReluNetwork {
     }
 
     pub fn visualize(&self) {
-
         for i in 0..self.layer.len() {
             println!("This is layer {}", i + 1);
             println!("This layer has {} neurons", self.layer[i].neurons.len());
@@ -57,5 +55,4 @@ impl ReluNetwork {
             self.layer[i].visualize();
         }
     }
-
 }

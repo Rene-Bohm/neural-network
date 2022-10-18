@@ -52,7 +52,7 @@ pub use crate::output::ZeroReLU;
 
 pub use crate::output::Gauss;
 
-pub use crate::output::softmax;
+pub use crate::output::*;
 //
 // # Neurons
 //
@@ -73,4 +73,8 @@ pub use crate::neuron_layer::Layer;
 
 pub use crate::network::*;
 
-// 42
+//
+// # optimzier
+//
+
+pub use crate::optimizer::Stochastic;
