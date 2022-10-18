@@ -16,14 +16,7 @@ fn main() {
     let data = &data_set.0;
     let classes = &data_set.1;
 
-    let first = Matrix::from(vec![
-        vec![data[0].0, data[0].1],
-        vec![data[1].0, data[1].1],
-        vec![data[2].0, data[2].1],
-        vec![data[3].0, data[3].1],
-        vec![data[4].0, data[4].1],
-        vec![data[5].0, data[5].1],
-    ]);
+    let first = Matrix::from(data.clone()).transpose();
 
     let mut layer1 = BasicLayer::initialize(2, 3);
 
@@ -35,11 +28,14 @@ fn main() {
 
     println!("----------------------Setup--------------------------\n");
 
+    let x1 = first.clone();
     println!("{}\n", &first);
 
-    println!("{}\n", &layer1.neurons);
+    let x2 = layer1.neurons.clone();
+    //println!("{}\n", &layer1.neurons);
 
-    println!("{}\n", &layer2.neurons);
+    let x3 = layer2.neurons.clone();
+    //println!("{}\n", &layer2.neurons);
 
     //----------------------------------------------------------------------------------------
     //Forward
@@ -48,15 +44,15 @@ fn main() {
 
     layer1.call(&first);
 
-    println!("Layer1 output: {}\n", &layer1.output.clone().unwrap());
+    //println!("Layer1 output: {}\n", &layer1.output.clone().unwrap());
 
     relu1.forward(&layer1.output.clone().unwrap());
 
-    println!("relu1 output: {}\n", &relu1.output.clone().unwrap());
+    //println!("relu1 output: {}\n", &relu1.output.clone().unwrap());
 
     layer2.call(relu1.output.as_ref().unwrap());
 
-    println!("Layer2 output: {}\n", &layer2.output.clone().unwrap());
+    //println!("Layer2 output: {}\n", &layer2.output.clone().unwrap());
 
     let mut pred = batch_softmax(layer2.output.clone().unwrap());
 
@@ -79,17 +75,23 @@ fn main() {
     layer2.backwards(&softmax_deriv);
 
     relu1.backwards(&layer2.dinput.clone().unwrap());
-    println!("\n{:?}\n", &relu1.dinput.clone().unwrap());
-    println!("\n{:?}\n", &layer1.neurons.clone().transpose());
+    //println!("\n{:?}\n", &relu1.dinput.clone().unwrap());
+    //println!("\n{:?}\n", &layer1.neurons.clone().transpose());
     layer1.backwards(&relu1.dinput.unwrap());
     println!("----");
 
+    optimizer.setup_momentum(&mut layer1);
+    optimizer.setup_momentum(&mut layer2);
     optimizer.update_learning_param();
     optimizer.update_weights(&mut layer1);
     optimizer.update_weights(&mut layer2);
     optimizer.increment_iteration();
 
-    println!("{}\n", &layer1.neurons);
+    //println!("{}\n", &layer1.neurons);
 
-    println!("{}\n", &layer2.neurons);
+    //println!("{}\n", &layer2.neurons);
+
+    println!("{}\n{}", x2, layer1.neurons);
+    println!("\n");
+    println!("{}\n{}", x3, layer2.neurons);
 }

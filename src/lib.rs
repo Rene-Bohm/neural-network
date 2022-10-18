@@ -3,6 +3,7 @@
 
 pub mod data;
 pub mod enums;
+pub mod help_func;
 pub mod linalg;
 pub mod loss_calc;
 pub mod network;

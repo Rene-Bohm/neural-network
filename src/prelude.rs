@@ -2,6 +2,8 @@
 //! re-export of common members.
 //!
 
+pub use crate::help_func::*;
+
 //
 // # matrix
 //

@@ -26,11 +26,11 @@ impl BasicLayer {
 
         let mut neuron_row: Vec<Vec<f64>> = Vec::new();
 
-        for _ in 0..num_neurons {
+        for _ in 0..num_inputs {
             let mut neuron_column: Vec<f64> = Vec::new();
 
-            for _ in 0..num_inputs {
-                neuron_column.push(rng.sample(Uniform::new(0.0, 1.0)));
+            for _ in 0..num_neurons {
+                neuron_column.push(0.0);
             }
 
             neuron_row.push(neuron_column);
@@ -59,10 +59,10 @@ impl BasicLayer {
         let weight_dim = self.neurons.dimension();
         let input_dim = &input.dimension();
 
-        if (input_dim.1 == weight_dim.1) {
+        if (input_dim.1 == weight_dim.0) {
             self.input = Some(input.clone());
 
-            let mut result = input.clone().dot(&self.neurons.transpose());
+            let mut result = input.clone().dot(&self.neurons);
 
             result.clone().add_row(&self.bias);
 
@@ -77,7 +77,6 @@ impl BasicLayer {
     }
 
     pub fn backwards(&mut self, derivative_value: &Matrix) {
-        println!("---");
         self.dweights = Some(
             self.input
                 .as_ref()
@@ -85,15 +84,15 @@ impl BasicLayer {
                 .transpose()
                 .dot(derivative_value),
         );
-        println!("---");
+        //println!("-");
         self.dbias = Some(derivative_value.clone().sum(Some(true)));
-        println!("---");
+        //println!("--");
         self.dinput = Some(
             derivative_value
                 .clone()
                 .dot(&self.neurons.clone().transpose()),
         );
-        println!("---");
+        //println!("---");
     }
 
     pub fn get_weights(&self) -> Matrix {

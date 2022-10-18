@@ -163,6 +163,10 @@ impl Matrix {
         }
     }
 
+    pub fn entries(&self) -> Vec<Vec<f64>> {
+        self.entries.clone()
+    }
+
     pub fn visualize(&self) {
         for i in 0..self.rows {
             println!("{:?}", self.entries[i]);
